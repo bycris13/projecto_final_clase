@@ -32,7 +32,7 @@ public class Programa {
         //Declaracion de variables de Programa 
         int n = 0, opccion, i, e, b = 0, count = 0;
         boolean validacion = false;
-        String contraseña, identificacionDepartamento, limp, cedulaEmpEliminar;
+        String contraseña, identificacionDepartamento, limp, cedulaEmpEliminar, cedulaMod;
         //Vector para Administradores 
         Administradores A[] = new Administradores[3];
         //Vector para departamentos
@@ -66,7 +66,7 @@ public class Programa {
         Empleados empleado5 = new Empleados("San Juan", "102145219765", "calle14 carrera 2", "2001-01-2", "Lopez@gmail.com", 30225, "10", "2023-11-20");
         E.add(empleado5);
 
-        Empleados empleado6 = new Empleados("San Juan", "102145219765", "calle14 carrera 2", "2001-01-2", "Lopez@gmail.com", 30225, "10", "2023-11-20");
+        Empleados empleado6 = new Empleados("San Juan", "102145219760", "calle14 carrera 2", "2001-01-2", "Lopez@gmail.com", 30225, "10", "2023-11-20");
         E.add(empleado6);
         //Empleados m = new Empleados();
         //Vector de visitantes
@@ -200,8 +200,7 @@ public class Programa {
                         break;
 
                     case 3:
-
-                       int cantidadEmpleados = 0;
+                        int cantidadEmpleados = 0;
                         int cantidadVisitantes = 0;
                         System.out.println("Ingrese el identificador del departamento:");
                         identificacionDepartamento = entrada.next();
@@ -226,7 +225,7 @@ public class Programa {
                                         System.out.println(V.get(i).Visualizar());
                                         cantidadVisitantes++;
                                     } else {
-                                        System.out.println("Aforo lleno " );
+                                        System.out.println("Aforo lleno ");
                                         i = V.size();
                                     }
                                 }
@@ -254,10 +253,10 @@ public class Programa {
                                     i = V.size();
                                 }
                             }
-                            
+
                             cantidadEmpleados = 0;
                             cantidadVisitantes = 0;
-                            
+
                         } else if (identificacionDepartamento.equals("12")) {
                             for (i = 0; i < E.size(); i++) {
                                 if (E.get(i).getIddep_emp().equals("12")) {
@@ -292,24 +291,20 @@ public class Programa {
                              i=entrada.nextInt();
                              E.remove(i);*/
                     case 4:
-                        System.out.println("Ingrese su usuario de administardor para poder modificar de los empleados");
-                        usuario = entrada.next();
-                        for (i = 0; i < n; i++) {
-                            if (A[i].getUsuario().equalsIgnoreCase(usuario)) {
-                                if (A[i].modificar(usuario).equalsIgnoreCase("Aceptado")) {
-                                }
-                            } else {
-                                System.out.println("No se encontro su usario:" + "\n." + usuario);
-                            }
-                        }
+                        System.out.println("Ingrese la cédula del empleado a modificar:");
+                        cedulaMod = entrada.next();
+                        Iterator<Empleados> empl = E.iterator(); // cree iterador
+                        Empleados empleado = empl.next(); // [emp1, emp2, emp3]
+                        empleado.modificar(cedulaMod, E);
                         break;
+                        
                     case 5:
                         System.out.println("Ingrese la cedula del empleado que deseas eliminar");
                         cedulaEmpEliminar = entrada.next();
                         Iterator<Empleados> iterator = E.iterator();
                         while (iterator.hasNext()) {
-                            Empleados empleado = iterator.next();
-                            if (empleado.eliminarEmpleado(cedulaEmpEliminar, E)) {
+                            Empleados em = iterator.next();
+                            if (em.eliminarEmpleado(cedulaEmpEliminar, E)) {
                                 //se econtro el empleado y salio del bucle
                                 break;
                             }

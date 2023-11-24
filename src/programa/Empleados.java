@@ -26,7 +26,7 @@ public class Empleados {
     public Empleados() {
     }
 
-    public Empleados(String nombre_emp, String ced_emp, String dirección, String fec_nac, String correo_emp, int tel_emp, String iddep_emp,String fecha_ingreso) {
+    public Empleados(String nombre_emp, String ced_emp, String dirección, String fec_nac, String correo_emp, int tel_emp, String iddep_emp, String fecha_ingreso) {
         this.nombre_emp = nombre_emp;
         this.ced_emp = ced_emp;
         this.dirección = dirección;
@@ -100,66 +100,79 @@ public class Empleados {
     public void setFecha_ingreso(String fecha_ingreso) {
         this.fecha_ingreso = fecha_ingreso;
     }
-   
 
     public String Visualizar() {
-        return "Empleados:" + "nombre_emp:" + nombre_emp + ",ced_emp:" + ced_emp + ",dirección:" + dirección + ",fec_nac:" + fec_nac + ",correo_emp:" + correo_emp + ",tel_emp:" + tel_emp + ",iddep_emp:" + iddep_emp +"fecha_ingreso"+ fecha_ingreso;
+        return "Empleados: " + " nombre_emp: " + nombre_emp + ", ced_emp:" + ced_emp + ", dirección: " + dirección + ", fec_nac: " + fec_nac + ", correo_emp: " + correo_emp + ", tel_emp: " + tel_emp + ", iddep_emp: " + iddep_emp + ", fecha_ingreso: " + fecha_ingreso;
 
     }
 
-    public void modificar(String cedulaEmpEliminar, List<Empleados> listaEmpleados) {
-        Iterator<Empleados> iterator = listaEmpleados.iterator();
+    public void modificar(String cedulaEmpMod, List<Empleados> listaEmpleados) {
+        Iterator<Empleados> listaEmp = listaEmpleados.iterator();
         Scanner scanner = new Scanner(System.in);
-        while (iterator.hasNext()) {
-            Empleados empleado = iterator.next();
-            if (empleado.getCed_emp().equalsIgnoreCase(ced_emp)) {
+        
+        boolean found = false; // bandera
+        while (listaEmp.hasNext()) { // mientras haya algun empleado
+            Empleados empleado = listaEmp.next(); // dame a ese empleado
+            if (empleado.getCed_emp().equalsIgnoreCase(cedulaEmpMod)) {
+                found = true;
                 System.out.println("Ingrese el nombre a modificar:");
                 String nuevoNombre = scanner.next();
-                setNombre_emp(nuevoNombre);
+                setNombre_emp(nuevoNombre); // el metodo set sirve para MODIFICAR una variable
                 System.out.println("Ingrese la direccion a modificar:");
                 String nuevaDireccion = scanner.next();
                 setDirección(nuevaDireccion);
                 System.out.println("Ingrese el correo a modificar:");
                 String nuevoCorreo = scanner.next();
                 setCorreo_emp(nuevoCorreo);
-                setCorreo_emp(nuevoCorreo);
                 System.out.println("Ingrese el telefono a modificar");
                 int nuevoTelefono = scanner.nextInt();
                 setTel_emp(nuevoTelefono);
-                System.out.println("Informacion del empleado:" + nuevoNombre + "\nModificacion exitosa");
-            } else {
-                System.out.println("El empleado con cedula " + cedulaEmpEliminar + " no fue encontrado");
+                System.out.println("Informacion del empleado: " + nuevoNombre + "\nFue modificada exitosamente");
+                
             }
+        }
+        if (found == false) {
+            System.out.println("El empleado con cedula " + cedulaEmpMod + " no fue encontrado");
+            
         }
 
     }
 
     public boolean eliminarEmpleado(String cedulaEmpEliminar, List<Empleados> listaEmpleados) {
 
+        // Iterador para recorrer la lista de empleados
         Iterator<Empleados> iterator = listaEmpleados.iterator();
-        Scanner scanner = new Scanner(System.in);
 
+        // Se busca el empleado con la cédula especificada
         while (iterator.hasNext()) {
-            Empleados empleado = iterator.next();
-            if (empleado.getCed_emp().equalsIgnoreCase(cedulaEmpEliminar)) {
-                // Se encontró al empleado, se solicita confirmación
-                System.out.println("Empleado con cédula " + cedulaEmpEliminar + " encontrado. ¿Está seguro de eliminarlo? (s/n)");
-                
-                String respuesta = scanner.nextLine().toLowerCase();
-                if (respuesta.equalsIgnoreCase("s")) {
+            Empleados empleadoActual = iterator.next();
+            if (empleadoActual.getCed_emp().equals(cedulaEmpEliminar)) {
+                // Se encontró el empleado, se solicita confirmación
+                System.out.println("Empleado con cédula " + cedulaEmpEliminar + " fue encontrado. ¿Está seguro de eliminarlo? (s/n)");
+
+                String respuesta = new Scanner(System.in).nextLine().toLowerCase();
+                if (respuesta.equals("s")) {
                     // Confirmado, se elimina y se confirma
                     System.out.println("Empleado eliminado.");
                     iterator.remove();
+                    return true;
                 } else {
                     // No confirmado, se informa y se sale del ciclo
                     System.out.println("Eliminación cancelada.");
+                    return false;
                 }
-                return true;
             }
         }
-        System.out.println("El empleado con cedula "+ cedulaEmpEliminar+"no fue encontrado"  );
+
+        // El empleado no se encontró
+        System.out.println("Empleado no encontrado");
         return false;
-        /*public static Empleados[] eliminar(Empleados[] empleados, int idEmpleado) {
+    }
+
+}
+
+/*
+    public static Empleados[] eliminar(Empleados[] empleados, int idEmpleado) {
         int indiceEmpleado = -1;
         // buscar el indice del empleado que queremos eliminar
         for (int i = 0; i < empleados.length; i++) {
@@ -180,7 +193,5 @@ public class Empleados {
         for (int i = indiceEmpleado; i < empleados.length - 1; i++) {
             empleados[i] = empleados[i + 1];
         }
-        return null;*/
-
-    }
-}
+        return null;
+ */
